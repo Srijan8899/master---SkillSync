@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 import { CiHeadphones } from "react-icons/ci";
 import { FaHandshake } from "react-icons/fa";
-import { featuresData } from ".../Datafiles/Feature.js";
+import Features from '../../dataAssets/Features';
 
-const FeatureSection = () => {
+const Feature = () => {
   return (
     // feature container
     <div className="py-10 text-center bg-gray-100">
@@ -25,13 +25,12 @@ const FeatureSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-8 mt-5 sm:grid-cols-1">
           {/* 6 card features using map function */}
-          {featuresData.map((feature) => (
+          {Features.map((feature) => (
             // Feature card
 
             <div
               key={feature.id}
-              className="flex flex-col justify-center items-center p-6 rounded-lg gap-4 hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in bg-white"
-            >
+              className="flex flex-col justify-center items-center p-6 rounded-lg gap-4 hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in bg-white">
               {/* icon container */}
 
               {/* feature svg */}
@@ -57,7 +56,7 @@ const FeatureSection = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FeatureSection;
+export default Feature
