@@ -56,16 +56,6 @@ const Categories = [
       image: Speaking,
       title: "Public Speaking",
     },
-    // {
-    //   id : 11,
-    //   image: Arts,
-    //   title: "Visual Arts",
-    // },
-    // {
-    //   id : 12,
-    //   image: Speaking,
-    //   title: "Public Speaking",
-    // },
   ];
   
   export default Categories;

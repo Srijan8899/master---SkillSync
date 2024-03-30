@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, Button } from "@mui/base";
 import { CiSearch } from "react-icons/ci";
+import { NavLink } from "react-router-dom";
 
 const SkillSearchBar = () => {
   return (
@@ -26,9 +27,11 @@ const SkillSearchBar = () => {
           }
         />
       </div>
+      <NavLink to='/explore'>
       <Button className="bg-[rgba(28,145,242,1)] font-bold text-white min-w-[104px] h-12 w-[104px] cursor-pointer rounded-xl">
         Explore
       </Button>
+      </NavLink>
     </div>
   );
 };
