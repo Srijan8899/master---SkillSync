@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router";
 import HomePage from "./components/Home/HomePage";
 import LoginPage from "./components/Login/LoginPage";
 import SignUpPage from "./components/SignUp/SignupPage";
+import InstructorDashboard from "./components/Dashboards/InstructorDashboard";
+import StudentDashboard from "./components/Dashboards/StudentDashboard";
 function App() {
   return (
     <>
@@ -16,6 +18,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
           </Route>
         </Routes>
       </div>

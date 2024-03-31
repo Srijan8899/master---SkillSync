@@ -4,12 +4,12 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { CiLocationArrow1 } from "react-icons/ci";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    dateOfBirth: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,6 +18,7 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("instructor");
+  const navigation = useNavigate();
 
   function changeHandler(event) {
     setFormData((prevData) => ({
@@ -28,19 +29,42 @@ const SignUpPage = () => {
 
   function submitHandler(event) {
     event.preventDefault();
-    if (formData.password != formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
+
     const finalData = {
       ...formData,
-      accountType,
+      role: accountType
     };
 
-    toast.success("Signup Successfully");
-    console.log("printing Final account data ");
-    console.log(finalData);
+    fetch('http://localhost:8000/api/user/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(finalData),
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Signup failed');
+      }
+    })
+    .then(data => {
+      console.log('Signup successful:', data);
+      toast.success('Signup successful');
+      // You can redirect to login page or do other actions upon successful signup
+      navigation("/login")
+    })
+    .catch(error => {
+      console.error('Signup error:', error.message);
+      toast.error('Signup failed. Please try again.');
+    });
   }
+
   return (
     <div>
       <section className="bg-white">
@@ -91,47 +115,35 @@ const SignUpPage = () => {
                 className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2"
                 onSubmit={submitHandler}
               >
-                <label>
+                <label className="col-span-2 md:col-span-1">
                   <p className="block mb-2 text-sm text-gray-600">First Name</p>
                   <input
                     required
                     type="text"
                     name="firstName"
                     onChange={changeHandler}
-                    placeholder="Enter First Name"
+                    placeholder="Enter Your First Name"
                     value={formData.firstName}
+                    autoComplete="firstname"
                     className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   />
                 </label>
 
-                <label>
-                  <p className="block mb-2 text-sm text-gray-600">Last name</p>
+                <label className="col-span-2 md:col-span-1">
+                  <p className="block mb-2 text-sm text-gray-600">Last Name</p>
                   <input
                     required
                     type="text"
                     name="lastName"
                     onChange={changeHandler}
-                    placeholder="Enter Last Name"
+                    placeholder="Enter Your Last Name"
                     value={formData.lastName}
+                    autoComplete="lastname"
                     className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   />
                 </label>
 
-                <label>
-                  <p className="block mb-2 text-sm text-gray-600">
-                    Date of Birth
-                  </p>
-                  <input
-                    required
-                    type="date"
-                    name="dateOfBirth"
-                    onChange={changeHandler}
-                    value={formData.dateOfBirth}
-                    className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                  />
-                </label>
-
-                <label>
+                <label className="col-span-2">
                   <p className="block mb-2 text-sm text-gray-600">
                     Email address
                   </p>
@@ -147,7 +159,7 @@ const SignUpPage = () => {
                   />
                 </label>
 
-                <label className="relative">
+                <label className="relative col-span-2 md:col-span-1">
                   <p className="block mb-2 text-sm text-gray-600">Password</p>
                   <input
                     required
@@ -171,7 +183,7 @@ const SignUpPage = () => {
                   </span>
                 </label>
 
-                <label className="relative">
+                <label className="relative col-span-2 md:col-span-1">
                   <p className="block mb-2 text-sm text-gray-600">
                     Confirm password
                   </p>
@@ -205,7 +217,7 @@ const SignUpPage = () => {
             </div>
           </div>
           {/* right side part */}
-          <div className="hidden bg-cover lg:block lg:w-2/5">
+          <div className="hidden bg-cover lg:block lg:w-2/5 mt-14 mr-5">
             <img src={signupImg} alt="Signup" />
           </div>
         </div>

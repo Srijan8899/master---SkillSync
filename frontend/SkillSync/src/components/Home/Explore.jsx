@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Explore = () => {
   return (
-    <div className="flex flex-col items-center justify-center m-14 mb-20 ">
+    <div className="hidden lg:flex flex-col items-center justify-center m-14 mb-20">
       {/* explore skills upper div */}
       <h2 className="text-3xl font-bold text-black">Explore Skills</h2>
       {/* paragraph div */}

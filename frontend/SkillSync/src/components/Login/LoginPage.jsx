@@ -2,7 +2,7 @@ import React from "react";
 import loginImg from "../../imageAssets/loginImage.jpg";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 
 
@@ -20,13 +20,43 @@ const LoginPage = () => {
       [event.target.name]: event.target.value,
     }));
   }
+  const navigation = useNavigate();
 
+ 
   function submitHandler(event) {
     event.preventDefault();
-    toast.success("Logged in Successfully")
-    console.log("Printing the formData ");
-    console.log(formData);
+    // Send POST request to backend
+    fetch('http://localhost:8000/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => {
+      if (response.ok) {
+        // Handle success response
+        return response.json();
+      } else {
+        // Handle error response
+        throw new Error('Login failed');
+      }
+    })
+    .then(data => {
+      // Handle successful login
+      console.log('Login successful:', data);
+      toast.success("Login Successfully")
+      // You can perform additional actions here, such as redirecting to another page
+      navigation("/instructor/dashboard")
+    })
+    .catch(error => {
+      // Handle error
+      console.error('Login error:', error.message);
+      // Show error message to the user, for example using toast.error
+      toast.error('Login failed. Please try again.');
+    });
   }
+  
   return (
     <div>
       <div className="bg-gray-100 flex justify-center items-center h-screen">
@@ -45,7 +75,7 @@ const LoginPage = () => {
           {/* Form Started */}
           <form onSubmit={submitHandler}>
             {/* Username Input */}
-            <label className="mb-4">
+            <label className="mb-7">
               <p className="block text-gray-600">Email Address</p>
               <input
                 required
@@ -54,6 +84,7 @@ const LoginPage = () => {
                 onChange={changeHandler}
                 placeholder="Enter your Email address"
                 name="email"
+                autoComplete="username"
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 placeholder:text-sm"
               />
             </label>
@@ -68,6 +99,7 @@ const LoginPage = () => {
                 onChange={changeHandler}
                 name="password"
                 placeholder="Enter Password"
+                autoComplete="current-password"
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 placeholder:text-sm"
               />
               {/* show password icon */}
@@ -83,14 +115,8 @@ const LoginPage = () => {
               </span>
             </label>
 
-            {/* Forgot Password Link */}
-            <div className="mb-6 text-blue-500 text-sm">
-              <a href="#" className="hover:underline">
-                Forgot Password?
-              </a>
-            </div>
             {/* Login Button */}
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full mt-4">
               Login
             </button>
           </form>
