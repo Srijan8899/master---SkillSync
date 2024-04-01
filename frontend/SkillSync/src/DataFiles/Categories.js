@@ -8,6 +8,7 @@ import {Journalism} from "../Assets/Journalism"
 import {Speaking} from "../Assets/PublicSpeaking"
 import {Science} from "../Assets/Science"
 import {Technology} from "../Assets/Technology"
+import {Gym} from "../Assets/Gym"
 
 
 
@@ -59,7 +60,7 @@ const Categories = [
   },
   {
     id: 10,
-    image: Science,
+    image: Gym,
     title: "Science",
   },
   {

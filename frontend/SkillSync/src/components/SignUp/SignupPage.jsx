@@ -5,6 +5,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { CiLocationArrow1 } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -36,33 +37,33 @@ const SignUpPage = () => {
 
     const finalData = {
       ...formData,
-      role: accountType
+      role: accountType,
     };
 
-    fetch('http://localhost:8000/api/user/signup', {
-      method: 'POST',
+    fetch("http://localhost:8000/api/user/signup", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(finalData),
     })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Signup failed');
-      }
-    })
-    .then(data => {
-      console.log('Signup successful:', data);
-      toast.success('Signup successful');
-      // You can redirect to login page or do other actions upon successful signup
-      navigation("/login")
-    })
-    .catch(error => {
-      console.error('Signup error:', error.message);
-      toast.error('Signup failed. Please try again.');
-    });
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Signup failed");
+        }
+      })
+      .then((data) => {
+        console.log("Signup successful:", data);
+        toast.success("Signup successful");
+        // You can redirect to login page or do other actions upon successful signup
+        navigation("/instructor/dashboard");
+      })
+      .catch((error) => {
+        console.error("Signup error:", error.message);
+        toast.error("Signup failed. Please try again.");
+      });
   }
 
   return (
@@ -214,8 +215,20 @@ const SignUpPage = () => {
                   <CiLocationArrow1 size={20} />
                 </button>
               </form>
+              {/* login  Link */}
+
+              <div className=" text-black mt-3 ml-3">
+                <div>
+                  Already have an Account ?{" "}
+                  <NavLink to={"/login"}>
+                    {" "}
+                    <span className="text-blue-500 hover:underline">Login Here</span>{" "}
+                  </NavLink>
+                </div>
+              </div>
             </div>
           </div>
+
           {/* right side part */}
           <div className="hidden bg-cover lg:block lg:w-2/5 mt-14 mr-5">
             <img src={signupImg} alt="Signup" />

@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <div
       id="header"
-      className="flex justify-between items-center py-4 px-4 sm:px-8 md:px-16 lg:px-32 shadow-sm mb-3"
+      className="flex justify-between items-center py-4 px-4 sm:px-8 md:px-16 lg:px-32 shadow-md mb-3"
     >
       <NavLink to="/">
         <div id="logo-box" className="flex items-center">
