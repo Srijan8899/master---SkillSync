@@ -4,7 +4,7 @@ import SkillSearchBar from './SkillSearchBar';
 
 const Hero = () => {
   return (
-    <div className="flex justify-center relative" id="herosec">
+    <div className="flex justify-center relative mt-3" id="herosec">
       <div
         className="bg-no-repeat bg-cover bg-center h-[400px] sm:h-[600px] lg:h-[600px] xl:h-[600px] w-fit sm:w-4/5 flex flex-col justify-end relative"
         style={{ backgroundImage: `url(${heroImg})` }}

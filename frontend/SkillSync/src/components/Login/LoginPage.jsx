@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import loginImg from "../../imageAssets/loginImage.jpg";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
+import { AuthContext } from "../../context/AuthContext";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { setIsLoggedIn, login } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -22,44 +23,42 @@ const LoginPage = () => {
   }
   const navigation = useNavigate();
 
- 
-  function submitHandler(event) {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    // Send POST request to backend
-    fetch('http://localhost:8000/api/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(response => {
+    try {
+      // Send POST request to backend
+      const response = await fetch("http://localhost:8000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
       if (response.ok) {
-        // Handle success response
-        return response.json();
+        // Handle successful login
+        login(data.token , data.email);
+        console.log("Login successful:", data);
+        toast.success("Login Successfully");
+        // You can perform additional actions here, such as redirecting to another page
+        navigation("/profile");
+        // Set the login state true here
+        setIsLoggedIn(true);
       } else {
-        // Handle error response
-        throw new Error('Login failed');
+        // Handle authentication error
+        console.error("Login failed");
+        toast.error("Login failed. Please try again.");
       }
-    })
-    .then(data => {
-      // Handle successful login
-      console.log('Login successful:', data);
-      toast.success("Login Successfully")
-      // You can perform additional actions here, such as redirecting to another page
-      navigation("/instructor/dashboard")
-    })
-    .catch(error => {
-      // Handle error
-      console.error('Login error:', error.message);
-      // Show error message to the user, for example using toast.error
-      toast.error('Login failed. Please try again.');
-    });
-  }
-  
+    } catch (error) {
+      // Handle any other errors
+      console.error("Login error:", error.message);
+      toast.error("Login failed. Please try again.");
+    }
+  };
+
   return (
     <div>
-      <div className="bg-gray-100 flex justify-center items-center h-screen">
+      <div className="bg-gray-100 flex justify-center items-center h-screen mt-[-1rem]">
         {/* Left: Image  */}
         <div className="w-1/2 h-screen hidden lg:block">
           <img
@@ -121,7 +120,7 @@ const LoginPage = () => {
             </button>
           </form>
           {/* Sign up  Link */}
-          <NavLink to='/signup'> 
+          <NavLink to="/signup">
             <div className="mt-6 text-blue-500 text-center">
               <div className="hover:underline">Sign up Here</div>
             </div>

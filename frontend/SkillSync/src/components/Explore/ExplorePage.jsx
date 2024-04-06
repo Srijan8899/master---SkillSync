@@ -1,7 +1,5 @@
 import React from "react";
 import { IoSearch } from "react-icons/io5";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 import CourseCards from "./CourseCards";
 const ExplorePage = () => {
   return (
@@ -12,28 +10,6 @@ const ExplorePage = () => {
             Explore Skills
           </div>
         </div>
-        <nav className="sm:flex sm:justify-center sm:items-center mt-4">
-          <div className="flex flex-col sm:flex-row">
-            <a
-              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
-              href="#"
-            >
-              Categories
-            </a>
-            <a
-              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
-              href="#"
-            >
-              Contact
-            </a>
-            <a
-              className="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0"
-              href="#"
-            >
-              About
-            </a>
-          </div>
-        </nav>
         <div className="relative mt-6 max-w-lg mx-auto mb-10">
           <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
             <IoSearch size={20} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import signupImg from "../../imageAssets/signupImage.jpg";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { CiLocationArrow1 } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const SignUpPage = () => {
     confirmPassword: "",
   });
 
+  const { setIsLoggedIn , login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("instructor");
@@ -27,44 +29,49 @@ const SignUpPage = () => {
       [event.target.name]: event.target.value,
     }));
   }
+ 
 
-  function submitHandler(event) {
+  const submitHandler = async (event) => {
     event.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-
     const finalData = {
       ...formData,
       role: accountType,
     };
-
-    fetch("http://localhost:8000/api/user/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(finalData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Signup failed");
-        }
-      })
-      .then((data) => {
-        console.log("Signup successful:", data);
-        toast.success("Signup successful");
-        // You can redirect to login page or do other actions upon successful signup
-        navigation("/instructor/dashboard");
-      })
-      .catch((error) => {
-        console.error("Signup error:", error.message);
-        toast.error("Signup failed. Please try again.");
+    try {
+      const response = await fetch("http://localhost:8000/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalData),
       });
-  }
+      console.log(response)
+      const data = await response.json();
+      console.log(data)
+      if (response.ok) {
+        // Handle successful login
+        login(data.token , data.email);
+        console.log("Login successful:", data);
+        toast.success("Signup Successfully");
+        // You can perform additional actions here, such as redirecting to another page
+        navigation("/profile");
+        // Set the login state true here
+        setIsLoggedIn(true);
+      } else {
+        // Handle authentication error
+        console.error("Signup failed");
+        toast.error("Signup failed. Please try again.");
+      }
+    } catch (error) {
+      // Handle any other errors
+      console.error("Signup error:", error.message);
+      toast.error("Signup failed. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -222,7 +229,9 @@ const SignUpPage = () => {
                   Already have an Account ?{" "}
                   <NavLink to={"/login"}>
                     {" "}
-                    <span className="text-blue-500 hover:underline">Login Here</span>{" "}
+                    <span className="text-blue-500 hover:underline">
+                      Login Here
+                    </span>{" "}
                   </NavLink>
                 </div>
               </div>
