@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 const ExplorePage = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
@@ -29,9 +30,10 @@ const ExplorePage = () => {
       console.error("Error fetching categories:", error);
     }
   };
+
   return (
-    <div className="h-full w-full       ">
-      <div className=" mx-auto  py-3 overflow-hidden">
+    <div className="h-full w-full">
+      <div className="mx-auto py-3 overflow-hidden">
         <div className="flex items-center justify-between w-full">
           <div className="w-full text-gray-700 md:text-center text-4xl font-semibold">
             Explore Skills
@@ -46,35 +48,24 @@ const ExplorePage = () => {
             className="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        {/* Filter bars */}
-        <div className="grid sm:grid-rows-1 sm:grid-cols-1 md:grid-row-2 md:grid-col-2 lg:grid-rows-3 lg:grid-cols-10 gap-2 mb-5">
-          <button
-            className={`flex items-center justify-center p-2 w-22 h-10 mx-2 rounded-md text-[9px] ${
-              selectedCategory === "All" ? "bg-blue-700" : "bg-blue-500"
-            } text-white `}
-            onClick={() => {
-              console.log("Selected category:", "All");
-              setSelectedCategory("All");
-            }}
+        {/* Dropdown menu for selecting categories */}
+        <div className="mt-4 mb-5 mx-auto max-w-md">
+          <select
+            className="w-full border rounded-md pl-2 pr-8 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            All
-          </button>
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className={`flex items-center justify-center w-22 h-10 mx-2 rounded-md text-[11px] ${
-                selectedCategory === category ? "bg-blue-700" : "bg-blue-500"
-              } text-white`}
-              onClick={() => {
-                console.log("Selected category:", category);
-                setSelectedCategory(category);
-              }}
-            >
-              {category}
-            </button>
-          ))}
+            <option value="All">All</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* All Cards things are here */}
@@ -82,13 +73,17 @@ const ExplorePage = () => {
         <div>
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-2xl font-medium text-gray-700 ml-6">
-              Top Skill Courses
+              Top {selectedCategory} Courses
             </h3>
           </div>
 
           {/* cards */}
+          
           <div className="h-full w-full p-3">
-            <CourseCards selectedCategory={selectedCategory} />
+            <CourseCards
+              selectedCategory={selectedCategory}
+              searchQuery={searchQuery}
+            />
           </div>
         </div>
       </div>
