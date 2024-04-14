@@ -16,8 +16,7 @@ const SignUpPage = () => {
     password: "",
     confirmPassword: "",
   });
-
-  const { setIsLoggedIn , login } = useContext(AuthContext);
+  const { setIsLoggedIn, login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("instructor");
@@ -29,7 +28,6 @@ const SignUpPage = () => {
       [event.target.name]: event.target.value,
     }));
   }
- 
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -49,16 +47,16 @@ const SignUpPage = () => {
         },
         body: JSON.stringify(finalData),
       });
-      console.log(response)
+      console.log(response);
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       if (response.ok) {
         // Handle successful login
-        login(data.token , data.email);
+        login(data.token, data.email , data.role);
         console.log("Login successful:", data);
         toast.success("Signup Successfully");
         // You can perform additional actions here, such as redirecting to another page
-        navigation("/profile");
+        navigation("/dashboard");
         // Set the login state true here
         setIsLoggedIn(true);
       } else {

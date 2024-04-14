@@ -12,8 +12,9 @@ import CourseContentPage from "./components/Courses/CourseContentPage";
 import InstructorDashboard from "./components/UserInfo/InstructorDashboard";
 import CourseCreateForm from "./components/UserInfo/CourseCreateForm";
 import { AuthContext } from "./context/AuthContext";
+import PreviewCourse from "./components/Courses/PreviewCourse";
 function App() {
-  const {isloggedIn} = useContext(AuthContext)
+  const {isloggedIn , role} = useContext(AuthContext)
   return (
     <>
       <div>
@@ -23,13 +24,13 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/login" element={!isloggedIn ? <LoginPage /> : <HomePage/>} />
             <Route path="/signup" element={!isloggedIn ? <SignUpPage /> : <HomePage/>} />
-            <Route path="/explore" element={<ExplorePage/>} />
+            <Route path="/explore" element={isloggedIn ? role=== "student" ? <ExplorePage/> : <HomePage/> : <ExplorePage/>} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/profile" element={isloggedIn ? <ProfilePage /> : <LoginPage/>} />
-            <Route path="/course" element={<CourseContentPage />} />
-            <Route path="/student" element={isloggedIn ? <StudentDashboard /> : <LoginPage/>} />
-            <Route path="/instructor" element={isloggedIn ? <InstructorDashboard /> : <LoginPage/>} />
-            <Route path="/createCourse" element={isloggedIn ? <CourseCreateForm /> : <LoginPage/>} />
+            <Route path="/course/:id" element={ isloggedIn ? role === "student" ? <CourseContentPage /> : <HomePage/> : <LoginPage/>} />
+            <Route path="/dashboard" element={isloggedIn ? role ==="student" ? <StudentDashboard/> : <InstructorDashboard/> : <LoginPage/>} />
+            <Route path="/createCourse" element={isloggedIn ? role === "instructor" ? <CourseCreateForm /> : <HomePage/>: <LoginPage/>} />
+            <Route path="/previewCourse/:id" element={ isloggedIn ? role === "instructor" ? <PreviewCourse /> : <HomePage/> : <LoginPage/>} />
           </Route>
         </Routes>
       </div>

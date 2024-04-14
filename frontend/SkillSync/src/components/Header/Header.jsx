@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { isloggedIn, setIsLoggedIn , logout } = useContext(AuthContext);
+  const { isloggedIn, setIsLoggedIn, logout, role } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -44,11 +44,13 @@ const Header = () => {
           <div id="main-btn-box" className="flex items-center">
             <div className="hidden sm:flex justify-end space-x-2 pr-4 md:pr-8">
               {/* explore skills button */}
-              <NavLink to="/explore">
-                <Button variant="text" sx={{ color: "black" }}>
-                  Explore Skills
-                </Button>
-              </NavLink>
+              {role === "student" && (
+                <NavLink to="/explore">
+                  <Button variant="text" sx={{ color: "black" }}>
+                    Explore Skills
+                  </Button>
+                </NavLink>
+              )}
             </div>
             <div>
               <button>
@@ -60,7 +62,7 @@ const Header = () => {
               <div
                 className={`flex flex-col absolute top-16 right-16 bg-white p-4 shadow-md z-20 `}
               >
-                <NavLink to="/instructor">
+                <NavLink to="/dashboard">
                   <Button
                     variant="text"
                     sx={{
@@ -129,6 +131,7 @@ const Header = () => {
           <div id="main-btn-box" className="flex items-center">
             <div className="hidden sm:flex justify-end space-x-2 pr-4 md:pr-8">
               {/* explore skills button */}
+
               <NavLink to="/explore">
                 <Button variant="text" sx={{ color: "black" }}>
                   Explore Skills

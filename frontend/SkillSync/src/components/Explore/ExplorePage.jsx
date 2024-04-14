@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IoSearch } from "react-icons/io5";
 import CourseCards from "./CourseCards";
+import { AuthContext } from "../../context/AuthContext";
+
 const ExplorePage = () => {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const { token } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/category/explore",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setCategories(data.categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+  // bg-gradient-to-r from-blue-200 via-blue-100   to-blue-300
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full       ">
       <div className=" mx-auto  py-3 overflow-hidden">
         <div className="flex items-center justify-between w-full">
-          <div className="w-full text-gray-700 md:text-center text-2xl font-semibold">
+          <div className="w-full text-gray-700 md:text-center text-4xl font-semibold">
             Explore Skills
           </div>
         </div>
@@ -21,6 +49,34 @@ const ExplorePage = () => {
             placeholder="Search"
           />
         </div>
+        {/* Filter bars */}
+        <div className="grid sm:grid-rows-1 sm:grid-cols-1 md:grid-row-2 md:grid-col-2 lg:grid-rows-3 lg:grid-cols-10 gap-2 mb-5">
+          <button
+            className={`flex items-center justify-center p-2 w-22 h-10 mx-2 rounded-md text-[9px] ${
+              selectedCategory === "All" ? "bg-blue-700" : "bg-blue-500"
+            } text-white `}
+            onClick={() => {
+              console.log("Selected category:", "All");
+              setSelectedCategory("All");
+            }}
+          >
+            All
+          </button>
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              className={`flex items-center justify-center w-22 h-10 mx-2 rounded-md text-[11px] ${
+                selectedCategory === category ? "bg-blue-700" : "bg-blue-500"
+              } text-white`}
+              onClick={() => {
+                console.log("Selected category:", category);
+                setSelectedCategory(category);
+              }}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
 
         {/* All Cards things are here */}
 
@@ -32,8 +88,8 @@ const ExplorePage = () => {
           </div>
 
           {/* cards */}
-          <div className="h-full w-screen bg-gray-100">
-            <CourseCards />
+          <div className="h-full w-screen">
+            <CourseCards selectedCategory={selectedCategory} />
           </div>
         </div>
       </div>

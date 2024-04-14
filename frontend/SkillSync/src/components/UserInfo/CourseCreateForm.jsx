@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 function CourseCreateForm() {
   const [courseData, setCourseData] = useState({
-    courseName: "",
-    description: "",
+    name: "",
+    desc: "",
     thumbnail: null,
     price: "",
-    skillCategory: "",
+    category: "",
   });
+  const navigate = useNavigate();
 
+  const { token } = useContext(AuthContext);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setCourseData({ ...courseData, thumbnail: file });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log(courseData);
+    try {
+      const formData = new FormData();
+      formData.append("name", courseData.name);
+      formData.append("desc", courseData.desc);
+      formData.append("thumbnail", courseData.thumbnail);
+      formData.append("price", courseData.price);
+      formData.append("category", courseData.category);
+
+      const response = await fetch(
+        "http://localhost:8000/api/user/dashboard/createCourse",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        toast.success("Course Created Successfully");
+        navigate("/dashboard");
+      } else {
+        toast.error("Course Creation Failed");
+        console.error("Course Creation error");
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error creating course:", error);
+    }
   };
 
   return (
@@ -36,9 +68,9 @@ function CourseCreateForm() {
                 type="text"
                 className="mt-1 p-2 block w-full border rounded-md"
                 placeholder="Course Name"
-                value={courseData.courseName}
+                value={courseData.name}
                 onChange={(e) =>
-                  setCourseData({ ...courseData, courseName: e.target.value })
+                  setCourseData({ ...courseData, name: e.target.value })
                 }
               />
             </div>
@@ -50,9 +82,9 @@ function CourseCreateForm() {
                 rows="3"
                 className="mt-1 p-2 block w-full border rounded-md"
                 placeholder="Description"
-                value={courseData.description}
+                value={courseData.desc}
                 onChange={(e) =>
-                  setCourseData({ ...courseData, description: e.target.value })
+                  setCourseData({ ...courseData, desc: e.target.value })
                 }
               ></textarea>
             </div>
@@ -92,7 +124,7 @@ function CourseCreateForm() {
                 onChange={(e) =>
                   setCourseData({
                     ...courseData,
-                    skillCategory: e.target.value,
+                    category: e.target.value,
                   })
                 }
               >
@@ -100,13 +132,17 @@ function CourseCreateForm() {
                 <option value="Web Development">Web Development</option>
                 <option value="Data Science">Data Science</option>
                 <option value="Programming">Programming</option>
-                <option value="Software Engineering">Software Engineering</option>
+                <option value="Software Engineering">
+                  Software Engineering
+                </option>
                 <option value="Management">Management</option>
                 <option value="Media">Media</option>
                 <option value="Communication">Communication</option>
                 <option value="Finance">Finance</option>
                 <option value="Economics">Economics</option>
-                <option value="Crytocurrency & Blockchain">Crytocurrency & Blockchain</option>
+                <option value="Crytocurrency & Blockchain">
+                  Crytocurrency & Blockchain
+                </option>
                 <option value="Network & Security">Network & Security</option>
                 <option value="Operating System">Operating System</option>
                 <option value="Design">Design</option>

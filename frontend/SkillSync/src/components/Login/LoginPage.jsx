@@ -22,6 +22,7 @@ const LoginPage = () => {
     }));
   }
   const navigation = useNavigate();
+  
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -37,11 +38,11 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         // Handle successful login
-        login(data.token , data.email);
+        login(data.token, data.email, data.role);
         console.log("Login successful:", data);
         toast.success("Login Successfully");
         // You can perform additional actions here, such as redirecting to another page
-        navigation("/profile");
+        navigation("/dashboard");
         // Set the login state true here
         setIsLoggedIn(true);
       } else {
