@@ -36,16 +36,16 @@ const CourseCards = ({ selectedCategory }) => {
     }
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 p-5 container">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {courses.map((course, index) => (
         <NavLink
           key={index}
           to={{ pathname: `/course/${course._id}`, state: { course } }}
         >
-          <div className="rounded overflow-hidden shadow-lg flex flex-col">
+          <div className="rounded overflow-hidden shadow-lg flex flex-col hover:cursor-pointer w-full h-full">
             <div className="relative">
               <img
-                className="w-[20rem]"
+                className="w-full object-cover h-[250px]"
                 src={course.thumbnail}
                 alt={course.name}
                 loading="lazy"
@@ -63,7 +63,6 @@ const CourseCards = ({ selectedCategory }) => {
             </div>
             <div className="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
               <span
-                href="#"
                 className="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center"
               >
                 <IoIosPricetags size={20} />

@@ -1,10 +1,50 @@
 import React from "react";
-import Categories from "../../dataAssets/Categories";
 import { NavLink } from "react-router-dom";
+import Music from "../../imageAssets/Music.png"
+import Culinary from "../../imageAssets/Cooking.png"
+import Technology from "../../imageAssets/Technology.png"
+import Fitness from "../../imageAssets/Fitness.png"
+import Arts from "../../imageAssets/Arts.png"
+import Speaking from "../../imageAssets/Public.png"
+
 
 const Explore = () => {
+  const Categories = [
+    {
+      id : 1,
+      image: Music,
+      title: "Music",
+    },
+    {
+      id : 2,
+      image: Culinary,
+      title: "Culinary",
+    },
+    {
+      id : 3,
+      image: Technology,
+      title: "Technology",
+    },
+    {
+      id : 4,
+      image: Fitness,
+      title: "Fitness",
+    },
+    {
+      id : 5,
+      image: Arts,
+      title: "Visual Arts",
+    },
+    {
+      id : 6,
+      image: Speaking,
+      title: "Public Speaking",
+    },
+   
+      
+  ];
   return (
-    <div className="hidden lg:flex flex-col items-center justify-center m-14 mb-20">
+    <div className="hidden lg:flex flex-col items-center justify-center m-14">
       {/* explore skills upper div */}
       <h2 className="text-3xl font-bold text-black">Explore Skills</h2>
       {/* paragraph div */}
@@ -15,7 +55,7 @@ const Explore = () => {
 
       {/* all skill category grid */}
       <NavLink to="/explore">
-        <div className="hidden lg:grid lg:grid-cols-5 lg:grid-rows-2 gap-24 m-10 w-[1080px] h-[300px] mb-8">
+        <div className="hidden lg:grid lg:grid-cols-6 lg:grid-rows-1 gap-24  mb-8">
           {Categories.map((category) => (
             // a particular skill
             <div

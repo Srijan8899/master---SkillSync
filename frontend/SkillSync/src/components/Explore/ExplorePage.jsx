@@ -29,7 +29,6 @@ const ExplorePage = () => {
       console.error("Error fetching categories:", error);
     }
   };
-  // bg-gradient-to-r from-blue-200 via-blue-100   to-blue-300
   return (
     <div className="h-full w-full       ">
       <div className=" mx-auto  py-3 overflow-hidden">
@@ -88,7 +87,7 @@ const ExplorePage = () => {
           </div>
 
           {/* cards */}
-          <div className="h-full w-screen">
+          <div className="h-full w-full p-3">
             <CourseCards selectedCategory={selectedCategory} />
           </div>
         </div>
