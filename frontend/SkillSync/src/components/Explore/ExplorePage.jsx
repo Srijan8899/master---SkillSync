@@ -78,7 +78,7 @@ const ExplorePage = () => {
           </div>
 
           {/* cards */}
-          
+
           <div className="h-full w-full p-3">
             <CourseCards
               selectedCategory={selectedCategory}

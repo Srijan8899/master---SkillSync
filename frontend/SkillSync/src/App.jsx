@@ -13,6 +13,7 @@ import InstructorDashboard from "./components/UserInfo/InstructorDashboard";
 import CourseCreateForm from "./components/UserInfo/CourseCreateForm";
 import { AuthContext } from "./context/AuthContext";
 import PreviewCourse from "./components/Courses/PreviewCourse";
+import PurchaseDone from "./components/Courses/PurchaseDone";
 function App() {
   const {isloggedIn , role} = useContext(AuthContext)
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/dashboard" element={isloggedIn ? role ==="student" ? <StudentDashboard/> : <InstructorDashboard/> : <LoginPage/>} />
             <Route path="/createCourse" element={isloggedIn ? role === "instructor" ? <CourseCreateForm /> : <HomePage/>: <LoginPage/>} />
             <Route path="/previewCourse/:id" element={ isloggedIn ? role === "instructor" ? <PreviewCourse /> : <HomePage/> : <LoginPage/>} />
+            <Route path="/paymentDone" element={ isloggedIn ? role === "student" ? <PurchaseDone /> : <HomePage/> : <LoginPage/>} />
           </Route>
         </Routes>
       </div>

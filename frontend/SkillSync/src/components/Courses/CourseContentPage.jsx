@@ -20,7 +20,7 @@ function CourseContentPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ courseID: id }), // Sending course ID in the request body
+        body: JSON.stringify({ courseID: id }),
       });
       console.log(response);
       const data = await response.json();
@@ -34,6 +34,46 @@ function CourseContentPage() {
   useEffect(() => {
     fetchCourses();
   }, []);
+
+  const checkouthandler = async (amount) => {
+    try {
+      const getKeyResponse = await fetch(
+        "http://localhost:8000/api/enroll/getkey"
+      );
+      const { key } = await getKeyResponse.json();
+
+      const checkoutResponse = await fetch(
+        "http://localhost:8000/api/enroll/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount }),
+        }
+      );
+      const { order } = await checkoutResponse.json();
+
+      const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
+        name: "SkillSync",
+        description: "Razorpay tutorial",
+        order_id: order.id,
+        callback_url: "http://localhost:8000/api/enroll/paymentverification",
+        notes: {
+          address: "razorapy official",
+        },
+      };
+
+      const razor = new window.Razorpay(options);
+      razor.open();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen mt-2">
       {/* Course header */}
@@ -58,7 +98,10 @@ function CourseContentPage() {
                   alt="Course Thumbnail"
                   className="w-full md:w-96 rounded-lg shadow-lg"
                 />
-                <button className="bg-blue-500 text-white px-6 py-3 rounded-lg mt-2 focus:outline-none hover:bg-blue-600">
+                <button
+                  className="bg-blue-500 text-white px-6 py-3 rounded-lg mt-2 focus:outline-none hover:bg-blue-600"
+                  onClick={() => checkouthandler(data.price)}
+                >
                   Enroll Now
                 </button>
               </div>
