@@ -35,53 +35,89 @@ function PreviewCourse() {
     fetchCourses();
   }, []);
   return (
-    <div className="bg-gray-100 min-h-screen mt-2">
-      {/* Course header */}
+    <div>
       {data && (
-        <div className="bg-white py-8">
-          <div className="container mx-auto px-4">
-            <div className="md:flex items-center justify-between">
-              <div className="mt-4 md:mt-0 md:ml-6">
-                <h1 className="text-4xl font-semibold mb-4">{data.name}</h1>
-                <p className="text-gray-600 mb-4 text-xl">
-                  By {data.instructor.firstName} {data.instructor.lastName}
-                </p>
-                <p className="text-gray-600 mb-4 text-l">
-                  Skill Category: {data.category}
-                </p>
-
-                <p className="font-semibold text-xl">Price: {data.price}</p>
+        <div class="w-full h-full overflow-hidden bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
+          <div class="w-full flex flex-col items-center justify-center mt-4">
+            <div class="space-y-3">
+              <h5 class="text-sm font-medium uppercase text-gray-400">
+                {data.category}
+              </h5>
+              <h1 class="text-3xl font-semibold">{data.name} </h1>
+              <div className="flex flex-wrap">
+                <ul class="sm:flex items-center text-sm text-gray-500 mb-2">
+                  <li>
+                    Created by{" "}
+                    <a href="#" class="font-bold">
+                      {" "}
+                      {data.instructor.firstName} {data.instructor.lastName}
+                    </a>
+                  </li>
+                  <span class="hidden sm:inline mx-3 text-2xl">·</span>
+                  <li>Created at 01/2022</li>
+                </ul>
               </div>
-              <div className="flex flex-col items-center justify-center">
-                <img
-                  src={data.thumbnail}
-                  alt="Course Thumbnail"
-                  className="w-full md:w-96 rounded-lg shadow-lg"
-                />
+              <div class="flex">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mr-2 w-4 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {data.enrolledStudents.length} Enrolled
+              </div>
+              <div class="flex">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mr-2 w-4 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                Price : ₹{data.price}
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Course content */}
-      {data && (
-        <div className="container mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-3xl font-semibold mb-6">Course Overview</h2>
-            <p className="text-gray-700 mb-6">{data.desc}</p>
-            <div className="mb-6">
-              <h3 className="text-xl font-semibold mb-2">About Instructor</h3>
-              <div className="flex items-center">
-                <div>
-                  <h4 className="font-semibold">
-                    {data.instructor.firstName} {data.instructor.lastName}
-                  </h4>
-                  <p className="text-gray-600">
-                    {data.instructor.profile.about}
-                  </p>
-                </div>
-              </div>
+          <div className="w-full flex flex-col items-center justify-center mt-5">
+            <img
+              src={data.thumbnail}
+              alt={data.name}
+              className=" object-cover rounded-2xl w-[500px] h-[300px] mx-auto"
+            />
+          </div>
+          <div className="container mx-auto px-4 py-8">
+            <div className="bg-white rounded-lg shadow-md p-8">
+              <h2 className="text-3xl font-semibold mb-6">Course Overview</h2>
+              <p className="text-gray-700 mb-6">{data.desc}</p>
+            </div>
+          </div>
+          <div className="container mx-auto px-4 py-8">
+            <div className="bg-white rounded-lg shadow-md p-8">
+              <h2 className="text-3xl font-semibold mb-6">
+                About Course Creator
+              </h2>
+              <h4 className="font-semibold mb-2">
+                {" "}
+                {data.instructor.firstName} {data.instructor.lastName}
+              </h4>
+              <p className="text-gray-700 mb-6">
+                {data.instructor.profile.about}
+              </p>
             </div>
           </div>
         </div>

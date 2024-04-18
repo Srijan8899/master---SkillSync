@@ -69,7 +69,7 @@ const CourseCards = ({ selectedCategory, searchQuery }) => {
               <div className="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
                 <span className="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
                   <IoIosPricetags size={20} />
-                  <span className="ml-1 text-base">{course.price}</span>
+                  <span className="ml-1 text-base">₹{course.price}</span>
                 </span>
 
                 <span className="flex justify-center items-center gap-1 text-white bg-blue-600 py-2 px-4 rounded-xl shadow-md  transition duration-300 ease-in-out transform hover:scale-105 hover:bg-white hover:text-black">

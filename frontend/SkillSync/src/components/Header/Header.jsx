@@ -20,7 +20,7 @@ const Header = () => {
   const clickHandler = () => {
     logout();
     setIsLoggedIn(false);
-    toast.error("Logout Successfully");
+    toast.success("Logout Successfully");
   };
 
   return (
@@ -85,19 +85,20 @@ const Header = () => {
                     Profile
                   </Button>
                 </NavLink>
-
-                <NavLink to="#">
-                  <Button
-                    variant="text"
-                    sx={{
-                      color: "black",
-                      "&:hover": { textDecoration: "underline" },
-                    }}
-                    className="hover:underline"
-                  >
-                    Invoice history
-                  </Button>
-                </NavLink>
+                {role === "student" && (
+                  <NavLink to="/invoice">
+                    <Button
+                      variant="text"
+                      sx={{
+                        color: "black",
+                        "&:hover": { textDecoration: "underline" },
+                      }}
+                      className="hover:underline"
+                    >
+                      Invoice history
+                    </Button>
+                  </NavLink>
+                )}
 
                 <NavLink to={"/"} onClick={clickHandler}>
                   <Button

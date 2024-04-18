@@ -14,6 +14,7 @@ import CourseCreateForm from "./components/UserInfo/CourseCreateForm";
 import { AuthContext } from "./context/AuthContext";
 import PreviewCourse from "./components/Courses/PreviewCourse";
 import PurchaseDone from "./components/Courses/PurchaseDone";
+import Invoices from "./components/UserInfo/Invoices";
 function App() {
   const {isloggedIn , role} = useContext(AuthContext)
   return (
@@ -25,7 +26,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/login" element={!isloggedIn ? <LoginPage /> : <HomePage/>} />
             <Route path="/signup" element={!isloggedIn ? <SignUpPage /> : <HomePage/>} />
-            <Route path="/explore" element={isloggedIn ? role=== "student" ? <ExplorePage/> : <HomePage/> : <ExplorePage/>} />
+            <Route path="/explore" element={isloggedIn ? role=== "student" ? <ExplorePage/> : <HomePage/> : <LoginPage/>} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/profile" element={isloggedIn ? <ProfilePage /> : <LoginPage/>} />
             <Route path="/course/:id" element={ isloggedIn ? role === "student" ? <CourseContentPage /> : <HomePage/> : <LoginPage/>} />
@@ -33,6 +34,7 @@ function App() {
             <Route path="/createCourse" element={isloggedIn ? role === "instructor" ? <CourseCreateForm /> : <HomePage/>: <LoginPage/>} />
             <Route path="/previewCourse/:id" element={ isloggedIn ? role === "instructor" ? <PreviewCourse /> : <HomePage/> : <LoginPage/>} />
             <Route path="/paymentDone" element={ isloggedIn ? role === "student" ? <PurchaseDone /> : <HomePage/> : <LoginPage/>} />
+            <Route path="/invoice" element={isloggedIn ? role === "student" ? <Invoices /> : <HomePage/> : <LoginPage/>} />
           </Route>
         </Routes>
       </div>
